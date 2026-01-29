@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistem Pencarian Judul Skripsi</title>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="app-wrapper">
+
+    <!-- HEADER -->
+    <header class="app-header">
+        <h1>Sistem <span>Pencarian Judul Skripsi</span></h1>
+        <p>Implementasi String Matching pada Database Teks</p>
+    </header>
+
+    <!-- SEARCH -->
+    <div class="search-card">
+        <form method="POST" class="search-form">
+            <input
+                type="text"
+                name="keyword"
+                class="search-input"
+                placeholder="Masukkan kata kunci judul skripsi..."
+                value="{{ keyword }}"
+                required
+            >
+            <button class="search-btn">Cari</button>
+        </form>
+    </div>
+
+    <!-- RESULT -->
+    {% if hasil %}
+        <div class="result-info">
+            Ditemukan {{ hasil|length }} judul skripsi
+        </div>
+
+        <div class="result-grid">
+            {% for row in hasil %}
+            <div class="result-item">
+                <h3>{{ row.judul }}</h3>
+                <div class="result-meta">
+                    <span>👤 {{ row.penulis }}</span>
+                    <span>📅 {{ row.tahun }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- WAKTU EKSEKUSI -->
+        <div class="execution-time">
+            Rata-rata waktu pencarian judul skripsi:
+            <strong>{{ rata_rata }} detik</strong>
+        </div>
+
+    {% elif keyword %}
+        <div class="empty-state">
+            <h4>Judul skripsi belum tersedia</h4>
+            <p>
+                Data dengan kata kunci
+                <span class="keyword">"{{ keyword }}"</span>
+                belum tersedia pada database skripsi.
+            </p>
+            <small>
+                Silakan gunakan kata kunci lain atau coba pencarian yang lebih umum.
+            </small>
+        </div>
+    {% endif %}
+
+    <footer>
+        © 2026 • Aplikasi Pencarian Skripsi • RPL
+    </footer>
+
+</div>
+
+</body>
+</html>
